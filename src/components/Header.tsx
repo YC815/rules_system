@@ -8,7 +8,7 @@ export function Header() {
           href="/"
           className="font-mono text-lg font-extrabold tracking-tight text-foreground"
         >
-          SA<span className="text-primary">-</span>法規
+          校園<span className="text-primary">-</span>資訊
         </Link>
 
         <span className="rounded-md border-2 border-foreground bg-card px-2 py-0.5 font-mono text-[11px] font-bold text-foreground">

@@ -1,13 +1,16 @@
 import { Header } from "@/components/Header";
-import { RegulationCard } from "@/components/RegulationCard";
-import { getAllRegulations, groupByCategory } from "@/lib/regulations";
+import { ContentExplorer } from "@/components/ContentExplorer";
+import { getAllContent, countByCategory } from "@/lib/content";
 
 export default async function HomePage() {
-  const regulations = await getAllRegulations();
-  const grouped = groupByCategory(regulations);
+  const items = await getAllContent();
+  const counts = countByCategory(items);
 
-  const totalActive = regulations.filter((r) => r.status === "現行").length;
-  const totalDraft = regulations.filter((r) => r.status === "草案").length;
+  const stats: { label: string; value: number }[] = [
+    { label: "資訊總數", value: items.length },
+    { label: "學生活動", value: counts["活動"] },
+    { label: "校規規定", value: counts["校規"] },
+  ];
 
   return (
     <>
@@ -15,7 +18,7 @@ export default async function HomePage() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="relative overflow-hidden pt-20 pb-14">
+        <section className="relative overflow-hidden pt-20 pb-12">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 -z-10 opacity-50"
@@ -31,47 +34,30 @@ export default async function HomePage() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col items-center text-center gap-6 max-w-2xl mx-auto">
               <span className="rounded-md border-2 border-foreground bg-card px-3 py-1 font-mono text-xs font-bold text-foreground">
-                OPEN ACCESS
+                CAMPUS INFO HUB
               </span>
               <h1 className="font-extrabold text-4xl sm:text-5xl text-foreground tracking-tight leading-tight">
-                學生會法規彙編
+                校園資訊彙整站
               </h1>
               <p className="text-lg font-medium text-muted-foreground max-w-md">
-                TSchool 學生會內部法規的官方公示平台。條文透明，治理清晰。
+                學生活動、課程資訊、校規規定與校園公告，一站查閱。搜尋與篩選，快速找到你要的資訊。
               </p>
 
               {/* stats */}
               <div className="flex items-center gap-6 mt-2">
-                <div className="text-center">
-                  <p className="font-extrabold text-3xl text-foreground">
-                    {totalActive}
-                  </p>
-                  <p className="font-mono text-xs font-bold text-muted-foreground mt-0.5">
-                    現行法規
-                  </p>
-                </div>
-                <div className="w-px h-10 bg-foreground/20" />
-                <div className="text-center">
-                  <p className="font-extrabold text-3xl text-foreground">
-                    {regulations.length}
-                  </p>
-                  <p className="font-mono text-xs font-bold text-muted-foreground mt-0.5">
-                    法規總數
-                  </p>
-                </div>
-                {totalDraft > 0 && (
-                  <>
-                    <div className="w-px h-10 bg-foreground/20" />
+                {stats.map((stat, i) => (
+                  <div key={stat.label} className="flex items-center gap-6">
+                    {i > 0 && <div className="w-px h-10 bg-foreground/20" />}
                     <div className="text-center">
-                      <p className="font-extrabold text-3xl text-tone-orange-text">
-                        {totalDraft}
+                      <p className="font-extrabold text-3xl text-foreground">
+                        {stat.value}
                       </p>
                       <p className="font-mono text-xs font-bold text-muted-foreground mt-0.5">
-                        草案審議中
+                        {stat.label}
                       </p>
                     </div>
-                  </>
-                )}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -79,38 +65,19 @@ export default async function HomePage() {
 
         <div className="border-b-2 border-dashed border-foreground/30" />
 
-        {/* Regulation groups */}
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-12">
-          {Array.from(grouped.entries()).map(([category, regs]) => (
-            <div key={category}>
-              <div className="flex items-center gap-3 mb-6">
-                <h2 className="font-extrabold text-xl text-foreground">
-                  {category}
-                </h2>
-                <span className="rounded-md border-2 border-foreground bg-card px-2 py-0.5 font-mono text-[11px] font-bold text-foreground">
-                  {regs.length} 份
-                </span>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {regs.map((regulation) => (
-                  <RegulationCard
-                    key={regulation.slug}
-                    regulation={regulation}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
+        {/* Explorer */}
+        <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+          <ContentExplorer items={items} />
         </section>
       </main>
 
       <footer className="border-t-2 border-dashed border-foreground/30 py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
           <span className="font-mono text-sm font-extrabold text-foreground">
-            SA<span className="text-primary">-</span>法規
+            校園<span className="text-primary">-</span>資訊
           </span>
           <span className="font-mono text-xs font-bold text-muted-foreground">
-            © 2026 TSchool 學生會
+            © 2026 TSchool
           </span>
         </div>
       </footer>

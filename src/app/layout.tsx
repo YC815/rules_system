@@ -11,8 +11,9 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "SA-法規 — TSchool 學生會法規彙編",
-  description: "TSchool 學生會內部法規官方公示平台，條文透明，治理清晰。",
+  title: "校園資訊彙整站 — TSchool",
+  description:
+    "TSchool 校園資訊一站查閱：學生活動、課程資訊、校規規定與校園公告，支援搜尋與分類篩選。",
 };
 
 export default function RootLayout({

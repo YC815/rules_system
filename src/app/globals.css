@@ -46,8 +46,8 @@ body {
   font-weight: 500;
 }
 
-/* Regulation article prose */
-.reg-prose h2 {
+/* Content article prose */
+.content-prose h2 {
   font-size: 1rem;
   font-weight: 800;
   font-family: var(--font-mono);
@@ -59,32 +59,32 @@ body {
   letter-spacing: 0.02em;
 }
 
-.reg-prose p {
+.content-prose p {
   line-height: 2;
   margin-bottom: 0.875rem;
   color: var(--color-foreground);
   font-weight: 500;
 }
 
-.reg-prose p strong {
+.content-prose p strong {
   font-weight: 700;
   font-family: var(--font-mono);
 }
 
-.reg-prose ul {
+.content-prose ul {
   list-style: none;
   padding-left: 1.5rem;
   margin-bottom: 0.875rem;
 }
 
-.reg-prose ul li {
+.content-prose ul li {
   line-height: 2;
   position: relative;
   color: var(--color-foreground);
   font-weight: 500;
 }
 
-.reg-prose ul li::before {
+.content-prose ul li::before {
   content: "▸";
   position: absolute;
   left: -1.25rem;
@@ -92,6 +92,6 @@ body {
   font-weight: 700;
 }
 
-.reg-prose hr {
+.content-prose hr {
   display: none;
 }
